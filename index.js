@@ -1,5 +1,6 @@
 import express from 'express';
 import userRouter from './routes/user.routes.js';
+import urlRouter from "./routes/urls.routes.js";
 import { db } from './db/index.js';
 import ApiError from './utils/ApiError.js';
 import authMiddleware from "./middlewares/auth.middleware.js";
@@ -10,7 +11,17 @@ app.use(express.json());
 
 const PORT = process.env.PORT || 8000;
 
+console.log("THIS IS MY SERVER FILE");
+
 app.use('/api/v1/users', userRouter);
+app.use("/api/v1/urls", urlRouter);
+
+app.get("/protected", authMiddleware, (req, res) => {
+    res.json({
+        message: "You accessed protected route",
+        user: req.user,
+    });
+});
 
 app.use((err, req, res, next) => {
     if (err instanceof ApiError) {
@@ -24,13 +35,6 @@ app.use((err, req, res, next) => {
     return res.status(500).json({
         success: false,
         message: "Internal Server Error",
-    });
-});
-
-app.get("/protected", authMiddleware, (req, res) => {
-    res.json({
-        message: "You accessed protected route",
-        user: req.user,
     });
 });
 
