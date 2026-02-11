@@ -2,6 +2,7 @@ import express from 'express';
 import userRouter from './routes/user.routes.js';
 import { db } from './db/index.js';
 import ApiError from './utils/ApiError.js';
+import authMiddleware from "./middlewares/auth.middleware.js";
 
 const app = express();
 
@@ -23,6 +24,13 @@ app.use((err, req, res, next) => {
     return res.status(500).json({
         success: false,
         message: "Internal Server Error",
+    });
+});
+
+app.get("/protected", authMiddleware, (req, res) => {
+    res.json({
+        message: "You accessed protected route",
+        user: req.user,
     });
 });
 
