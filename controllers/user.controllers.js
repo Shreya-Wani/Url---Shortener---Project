@@ -6,6 +6,7 @@ import { hashPassword, verifyPassword } from "../utils/hash.js";
 import jwt from "jsonwebtoken";
 import ApiError from "../utils/ApiError.js";
 import ApiResponse from "../utils/ApiResponse.js";
+import asyncHandler from "../utils/asyncHandler.js";
 
 //signup 
 const signUp = asyncHandler(async (req, res) => {
@@ -46,4 +47,44 @@ const signUp = asyncHandler(async (req, res) => {
     });
 });
 
-export { signUp };
+//login
+const login = asyncHandler(async (req, res) => {
+    const result = loginPostRequestBodySchema.safeParse(req.body);
+
+    if (!result.success) {
+        throw new ApiError(400, "Invalid input data", result.error.format());
+    }
+
+    const { email, password } = result.data;
+
+    const [user] = await db
+        .select()
+        .from(usersTable)
+        .where(eq(usersTable.email, email));
+
+    if (!user) {
+        throw new ApiError(401, "Invalid email or password");
+    }
+
+    const isPasswordValid = verifyPassword(
+        password,
+        user.salt,
+        user.password
+    );
+
+    if (!isPasswordValid) {
+        throw new ApiError(401, "Invalid email or password");
+    }
+
+    const token = jwt.sign(
+        { userId: user.id, email: user.email },
+        process.env.JWT_SECRET,
+        { expiresIn: "1d" }
+    );
+
+    return res
+        .status(200)
+        .json(new ApiResponse(200, { token }, "Login successful"));
+})
+
+export { signUp, login };

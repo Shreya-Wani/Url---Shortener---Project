@@ -8,4 +8,12 @@ export const hashPassword = (password) => {
         .digest("hex");
 
     return { salt, hashedPassword };
-}
+};
+
+export const verifyPassword = (password, salt, storedHash) => {
+    const hash = createHmac("sha256", salt)
+        .update(password)
+        .digest("hex");
+
+    return hash === storedHash;
+};
