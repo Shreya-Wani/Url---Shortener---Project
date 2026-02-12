@@ -5,12 +5,22 @@ import { db } from './db/index.js';
 import ApiError from './utils/ApiError.js';
 import authMiddleware from "./middlewares/auth.middleware.js";
 import { redirectToOriginalUrl } from "./controllers/url.controllers.js";
+import cors from "cors";
 
 const app = express();
 
+app.use(cors());
 app.use(express.json());
 
 const PORT = process.env.PORT || 8000;
+
+app.use(
+  cors({
+    origin: "*", 
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
 
 app.use('/api/v1/users', userRouter);
 app.use("/api/v1/urls", urlRouter);
