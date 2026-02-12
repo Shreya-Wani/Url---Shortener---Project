@@ -87,3 +87,30 @@ export const getUserUrls = asyncHandler(async (req, res) => {
     )
   );
 });
+
+export const deleteUrl = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const userId = req.user.userId;
+
+  const [url] = await db
+    .select()
+    .from(urlsTable)
+    .where(eq(urlsTable.id, id));
+
+  if (!url) {
+    throw new ApiError(404, "URL not found");
+  }
+
+  if (url.userId !== userId) {
+    throw new ApiError(403, "You are not allowed to delete this URL");
+  }
+
+  await db
+    .delete(urlsTable)
+    .where(eq(urlsTable.id, id));
+
+  return res.status(200).json(
+    new ApiResponse(200, null, "URL deleted successfully")
+  );
+
+});
