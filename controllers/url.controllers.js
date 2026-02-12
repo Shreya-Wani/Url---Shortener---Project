@@ -64,3 +64,26 @@ export const redirectToOriginalUrl = asyncHandler(async (req, res) => {
   return res.redirect(url.originalUrl);
 });
 
+export const getUserUrls = asyncHandler(async (req, res) => {
+  const userId = req.user.userId;
+
+  const urls = await db
+    .select()
+    .from(urlsTable)
+    .where(eq(urlsTable.userId, userId));
+
+  return res.status(200).json(
+    new ApiResponse(
+      200,
+      urls.map((url) => ({
+        id: url.id,
+        shortUrl: `${req.protocol}://${req.get("host")}/${url.shortCode}`,
+        originalUrl: url.originalUrl,
+        clicks: url.clicks,
+        createdAt: url.createdAt,
+        updatedAt: url.updatedAt,
+      })),
+      "User URLs retrieved successfully"
+    )
+  );
+});
