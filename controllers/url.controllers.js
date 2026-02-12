@@ -5,6 +5,7 @@ import asyncHandler from "../utils/asyncHandler.js";
 import ApiError from "../utils/ApiError.js";
 import ApiResponse from "../utils/ApiResponse.js";
 import { createShortUrlSchema } from "../validation/request.validation.js";
+import { eq, sql } from "drizzle-orm";
 
 export const createShortUrl = asyncHandler(async (req, res) => {
 
@@ -39,3 +40,27 @@ export const createShortUrl = asyncHandler(async (req, res) => {
     )
   );
 });
+
+export const redirectToOriginalUrl = asyncHandler(async (req, res) => {
+
+  const { shortCode } = req.params;
+
+  const [url] = await db
+    .select()
+    .from(urlsTable)
+    .where(eq(urlsTable.shortCode, shortCode));
+
+  if (!url) {
+    throw new ApiError(404, "Short URL not found");
+  }
+
+  await db
+    .update(urlsTable)
+    .set({
+      clicks: sql`${urlsTable.clicks} + 1`,
+    })
+    .where(eq(urlsTable.shortCode, shortCode));
+
+  return res.redirect(url.originalUrl);
+});
+
