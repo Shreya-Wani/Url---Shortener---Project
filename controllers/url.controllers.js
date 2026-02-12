@@ -12,13 +12,29 @@ export const createShortUrl = asyncHandler(async (req, res) => {
   const result = createShortUrlSchema.safeParse(req.body);
 
   if (!result.success) {
-    console.log("VALIDATION ERROR:", result.error);
     throw new ApiError(400, "Validation failed", result.error.format());
   }
 
-  const { originalUrl } = result.data;
+  const { originalUrl, customCode } = result.data;
 
-  const shortCode = crypto.randomBytes(4).toString("hex");
+  let shortCode;
+
+  if (customCode) {
+    //check custom code exists
+    const existing = await db
+      .select()
+      .from(urlsTable)
+      .where(eq(urlsTable.shortCode, customCode));
+
+    if (existing.length > 0) {
+      throw new ApiError(409, "Custom code already in use");
+    }
+
+    shortCode = customCode;
+
+  } else {
+    shortCode = crypto.randomBytes(4).toString("hex");
+  }
 
   const [url] = await db
     .insert(urlsTable)
@@ -67,22 +83,39 @@ export const redirectToOriginalUrl = asyncHandler(async (req, res) => {
 export const getUserUrls = asyncHandler(async (req, res) => {
   const userId = req.user.userId;
 
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 5;
+
+  const offset = (page - 1) * limit;
+
   const urls = await db
     .select()
+    .from(urlsTable)
+    .where(eq(urlsTable.userId, userId))
+    .limit(limit)
+    .offset(offset);
+
+  const total = await db
+    .select({ count: count() })
     .from(urlsTable)
     .where(eq(urlsTable.userId, userId));
 
   return res.status(200).json(
     new ApiResponse(
       200,
-      urls.map((url) => ({
-        id: url.id,
-        shortUrl: `${req.protocol}://${req.get("host")}/${url.shortCode}`,
-        originalUrl: url.originalUrl,
-        clicks: url.clicks,
-        createdAt: url.createdAt,
-        updatedAt: url.updatedAt,
-      })),
+      {
+        currentPage: page,
+        totalUrls: total[0].count,
+        totalPages: Math.ceil(total[0].count / limit),
+        urls: urls.map((url) => ({
+          id: url.id,
+          shortUrl: `${req.protocol}://${req.get("host")}/${url.shortCode}`,
+          originalUrl: url.originalUrl,
+          clicks: url.clicks,
+          createdAt: url.createdAt,
+          updatedAt: url.updatedAt,
+        })),
+      },
       "User URLs retrieved successfully"
     )
   );

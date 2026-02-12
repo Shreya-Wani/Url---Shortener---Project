@@ -4,14 +4,13 @@ import urlRouter from "./routes/urls.routes.js";
 import { db } from './db/index.js';
 import ApiError from './utils/ApiError.js';
 import authMiddleware from "./middlewares/auth.middleware.js";
+import { redirectToOriginalUrl } from "./controllers/url.controllers.js";
 
 const app = express();
 
 app.use(express.json());
 
 const PORT = process.env.PORT || 8000;
-
-console.log("THIS IS MY SERVER FILE");
 
 app.use('/api/v1/users', userRouter);
 app.use("/api/v1/urls", urlRouter);
@@ -22,6 +21,8 @@ app.get("/protected", authMiddleware, (req, res) => {
         user: req.user,
     });
 });
+
+app.get("/:shortCode", redirectToOriginalUrl);
 
 app.use((err, req, res, next) => {
     if (err instanceof ApiError) {
