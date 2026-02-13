@@ -5,7 +5,7 @@ import asyncHandler from "../utils/asyncHandler.js";
 import ApiError from "../utils/ApiError.js";
 import ApiResponse from "../utils/ApiResponse.js";
 import { createShortUrlSchema } from "../validation/request.validation.js";
-import { eq, sql } from "drizzle-orm";
+import { eq, sql, count } from "drizzle-orm";
 
 export const createShortUrl = asyncHandler(async (req, res) => {
 
@@ -49,7 +49,7 @@ export const createShortUrl = asyncHandler(async (req, res) => {
     new ApiResponse(
       201,
       {
-        shortUrl: `${req.protocol}://${req.get("host")}/${shortCode}`,
+        shortUrl: `${process.env.BASE_URL || `${req.protocol}://${req.get("host")}`}/${shortCode}`,
         originalUrl: url.originalUrl,
       },
       "Short URL created successfully"
@@ -81,7 +81,10 @@ export const redirectToOriginalUrl = asyncHandler(async (req, res) => {
 });
 
 export const getUserUrls = asyncHandler(async (req, res) => {
-  const userId = req.user.userId;
+  const userId = req.user?.userId; // Safe access
+  if (!userId) {
+    throw new ApiError(401, "User context missing");
+  }
 
   const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 5;
@@ -109,7 +112,7 @@ export const getUserUrls = asyncHandler(async (req, res) => {
         totalPages: Math.ceil(total[0].count / limit),
         urls: urls.map((url) => ({
           id: url.id,
-          shortUrl: `${req.protocol}://${req.get("host")}/${url.shortCode}`,
+          shortUrl: `${process.env.BASE_URL || `${req.protocol}://${req.get("host")}`}/${url.shortCode}`,
           originalUrl: url.originalUrl,
           clicks: url.clicks,
           createdAt: url.createdAt,
