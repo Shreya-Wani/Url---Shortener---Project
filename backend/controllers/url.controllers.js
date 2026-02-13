@@ -5,7 +5,7 @@ import asyncHandler from "../utils/asyncHandler.js";
 import ApiError from "../utils/ApiError.js";
 import ApiResponse from "../utils/ApiResponse.js";
 import { createShortUrlSchema } from "../validation/request.validation.js";
-import { eq, sql, count, desc } from "drizzle-orm";
+import { eq, sql, count, desc } from "drizzle-orm"; 
 
 export const createShortUrl = asyncHandler(async (req, res) => {
 
