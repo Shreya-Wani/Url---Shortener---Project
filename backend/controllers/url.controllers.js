@@ -5,7 +5,7 @@ import asyncHandler from "../utils/asyncHandler.js";
 import ApiError from "../utils/ApiError.js";
 import ApiResponse from "../utils/ApiResponse.js";
 import { createShortUrlSchema } from "../validation/request.validation.js";
-import { eq, sql, count } from "drizzle-orm";
+import { eq, sql, count, desc } from "drizzle-orm";
 
 export const createShortUrl = asyncHandler(async (req, res) => {
 
@@ -95,6 +95,7 @@ export const getUserUrls = asyncHandler(async (req, res) => {
     .select()
     .from(urlsTable)
     .where(eq(urlsTable.userId, userId))
+    .orderBy(desc(urlsTable.createdAt))
     .limit(limit)
     .offset(offset);
 
