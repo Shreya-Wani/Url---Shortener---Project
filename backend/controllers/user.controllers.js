@@ -25,10 +25,19 @@ const signUp = asyncHandler(async (req, res) => {
         .from(usersTable)
         .where(eq(usersTable.email, email));
 
+    console.log("Signup Request:", { email });
+    console.log("Existing User Check:", existingUser);
+
     if (existingUser) {
         return res
             .status(409)
-            .json({ message: "User already exists" });
+            .json({
+                message: "User already exists",
+                debug: {
+                    sentEmail: email,
+                    foundUser: existingUser
+                }
+            });
     }
 
     const { salt, hashedPassword } = hashPassword(password);
@@ -41,10 +50,9 @@ const signUp = asyncHandler(async (req, res) => {
         password: hashedPassword,
     }).returning({ id: usersTable.id });
 
-    return res.status(201).json({
-        message: "User registered successfully",
-        data: { userId: user.id }
-    });
+    return res.status(201).json(
+        new ApiResponse(201, { userId: user.id }, "User registered successfully")
+    );
 });
 
 //login

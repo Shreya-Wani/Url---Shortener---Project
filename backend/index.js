@@ -29,6 +29,10 @@ app.use(express.json());
 app.use('/api/v1/users', userRouter);
 app.use("/api/v1/urls", urlRouter);
 
+app.get("/", (req, res) => {
+    res.send("Backend is working! Ready to shorten URLs.");
+});
+
 app.get("/protected", authMiddleware, (req, res) => {
     res.json({
         message: "You accessed protected route",
