@@ -44,9 +44,16 @@ export const AuthProvider = ({ children }) => {
                 message: response.data.message
             };
         } catch (error) {
+            const debug = error.response?.data?.debug;
+            let msg = error.response?.data?.message || 'Signup failed';
+
+            if (debug) {
+                msg += ` [DEBUG: Server recieved '${debug.sentEmail}'. DB found user ID: ${debug.foundUser?.id}]`;
+            }
+
             return {
                 success: false,
-                message: error.response?.data?.message || 'Signup failed'
+                message: msg
             };
         }
     };
@@ -54,7 +61,7 @@ export const AuthProvider = ({ children }) => {
     const logout = () => {
         localStorage.removeItem('token');
         setUser(null);
-        window.location.href = '/login';
+        window.location.href = '/';
     };
 
     return (

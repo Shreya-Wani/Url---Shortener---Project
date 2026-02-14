@@ -1,113 +1,152 @@
 // FILE: src/pages/Landing.jsx
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowRight, CheckCircle, Shield, BarChart, ExternalLink } from 'lucide-react';
+import { ArrowRight, BarChart, CheckCircle, ExternalLink, Shield, Zap } from 'lucide-react';
 import Navbar from '../components/Navbar';
 
 const Landing = () => {
     return (
-        <div className="min-h-screen bg-dark-900 overflow-hidden">
+        <div className="min-h-screen bg-[#050505] selection:bg-indigo-500/30 text-white relative overflow-hidden">
             <Navbar />
 
-            {/* Hero Section */}
-            <section className="relative pt-32 pb-20 px-4 sm:px-6 lg:px-8">
-                <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                    <div className="absolute top-0 left-1/4 w-96 h-96 bg-indigo-500/20 rounded-full blur-3xl animate-float" />
-                    <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-cyan-500/20 rounded-full blur-3xl animate-float delay-1000" />
-                </div>
+            {/* Background Ambient Glows - Animated */}
+            <div className="fixed top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
+                <motion.div
+                    animate={{
+                        scale: [1, 1.2, 1],
+                        opacity: [0.3, 0.5, 0.3],
+                        x: [0, 50, 0],
+                        y: [0, -50, 0]
+                    }}
+                    transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+                    className="absolute top-[-10%] left-[-10%] w-[800px] h-[800px] bg-indigo-600/10 rounded-full blur-[120px]"
+                />
+                <motion.div
+                    animate={{
+                        scale: [1, 1.1, 1],
+                        opacity: [0.3, 0.5, 0.3],
+                        x: [0, -30, 0],
+                        y: [0, 50, 0]
+                    }}
+                    transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+                    className="absolute bottom-[-10%] right-[-10%] w-[800px] h-[800px] bg-cyan-600/10 rounded-full blur-[120px]"
+                />
+            </div>
 
-                <div className="max-w-7xl mx-auto text-center relative z-10">
-                    <motion.h1
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="text-6xl md:text-8xl font-bold tracking-tight mb-8"
-                    >
-                        Shorten. <span className="text-gradient">Track.</span> Scale.
-                    </motion.h1>
+            {/* Main Content Container - Centered Vertically */}
+            <main className="relative z-10 h-screen flex flex-col justify-center items-center px-6 sm:px-8 lg:px-12 max-w-7xl mx-auto pt-28">
 
-                    <motion.p
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.1 }}
-                        className="text-xl md:text-2xl text-slate-400 max-w-3xl mx-auto mb-12"
-                    >
-                        Modern URL management built for creators and teams. Gain insights,
-                        control your links, and grow your audience.
-                    </motion.p>
+                {/* Content Wrapper to group Hero and Features together */}
+                <div className="w-full max-w-5xl flex flex-col items-center gap-12 sm:gap-16">
 
+                    {/* Hero Section */}
+                    <section className="text-center">
+                        <motion.div
+                            initial={{ opacity: 0, y: 30 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.8 }}
+                        >
+                            <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-b from-white to-slate-500 leading-[1.1]">
+                                <motion.span
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: 0.2, duration: 0.8 }}
+                                >
+                                    Shorten.
+                                </motion.span>
+                                <motion.span
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: 0.4, duration: 0.8 }}
+                                    className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-cyan-400 inline-block mx-2"
+                                >
+                                    Track.
+                                </motion.span>
+                                <motion.span
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: 0.6, duration: 0.8 }}
+                                >
+                                    Scale.
+                                </motion.span>
+                            </h1>
+                        </motion.div>
+
+                        <motion.p
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.8, duration: 0.8 }}
+                            className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-8 leading-relaxed font-light"
+                        >
+                            Modern URL management built for creators. <br className="hidden md:block" />
+                            Gain insights, control your links, and grow your audience.
+                        </motion.p>
+
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 1.0, duration: 0.8 }}
+                            className="flex gap-6 justify-center"
+                        >
+                            <Link to="/signup">
+                                <motion.button
+                                    whileHover={{ scale: 1.05 }}
+                                    whileTap={{ scale: 0.95 }}
+                                    className="px-8 py-3.5 rounded-full bg-gradient-to-r from-indigo-600 to-cyan-600 hover:from-indigo-500 hover:to-cyan-500 text-white font-semibold text-lg shadow-2xl shadow-indigo-500/40 transition-all flex items-center gap-2 group"
+                                >
+                                    Get Started Free
+                                    <ArrowRight className="group-hover:translate-x-1 transition-transform" />
+                                </motion.button>
+                            </Link>
+                        </motion.div>
+                    </section>
+
+                    {/* Features - Grid */}
                     <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.2 }}
-                        className="flex flex-col sm:flex-row gap-4 justify-center"
+                        className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full"
                     >
-                        <Link to="/signup">
-                            <button className="px-8 py-4 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-lg shadow-lg hover:shadow-indigo-500/25 transition-all flex items-center justify-center gap-2 group">
-                                Get Started Free
-                                <ArrowRight className="group-hover:translate-x-1 transition-transform" />
-                            </button>
-                        </Link>
-                        <Link to="/login">
-                            <button className="px-8 py-4 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 text-white font-bold text-lg transition-all">
-                                Login
-                            </button>
-                        </Link>
-                    </motion.div>
-                </div>
-            </section>
-
-            {/* Features Grid */}
-            <section className="py-20 bg-dark-800/50">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
                         {[
-                            { icon: ExternalLink, title: 'Custom URLs', desc: 'Branded links that look professional.' },
-                            { icon: BarChart, title: 'Deep Analytics', desc: 'Track clicks, locations, and devices.' },
-                            { icon: CheckCircle, title: 'QR Codes', desc: 'Generate QR codes instantly.' },
-                            { icon: Shield, title: 'Secure Links', desc: 'Enterprise-grade link protection.' },
+                            { icon: ExternalLink, title: 'Custom URLs', desc: 'Branded & Professional', delay: 1.2 },
+                            { icon: CheckCircle, title: 'QR Codes', desc: 'Instant Generation', delay: 1.3 },
+                            { icon: Shield, title: 'Secure Links', desc: 'Enterprise Protection', delay: 1.4 },
+                            { icon: Zap, title: 'Blazing Fast', desc: 'Instant Redirection', delay: 1.5 },
                         ].map((feature, i) => (
                             <motion.div
                                 key={i}
                                 initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ delay: i * 0.1 }}
-                                className="p-8 rounded-2xl bg-dark-900 border border-white/5 hover:border-indigo-500/30 transition-colors group"
+                                animate={{
+                                    opacity: 1,
+                                    y: [0, -10, 0]
+                                }}
+                                transition={{
+                                    opacity: { delay: feature.delay, duration: 0.5 },
+                                    y: {
+                                        delay: feature.delay,
+                                        duration: 3 + i, // Different duration for each card
+                                        repeat: Infinity,
+                                        ease: "easeInOut"
+                                    }
+                                }}
+                                whileHover={{
+                                    scale: 1.05,
+                                    y: -15,
+                                    backgroundColor: "rgba(255, 255, 255, 0.08)",
+                                    transition: { duration: 0.2 } // Fast response on hover
+                                }}
+                                className="p-8 rounded-3xl bg-white/5 backdrop-blur-md border border-white/5 transition-colors group cursor-default text-center flex flex-col items-center justify-center gap-4 hover:border-white/10"
                             >
-                                <div className="p-3 bg-indigo-500/10 rounded-xl w-fit mb-6 group-hover:scale-110 transition-transform">
-                                    <feature.icon className="text-indigo-400" size={32} />
+                                <div className="p-4 bg-gradient-to-br from-indigo-500/10 to-cyan-500/10 rounded-2xl w-fit group-hover:scale-110 transition-transform shadow-inner shadow-white/5">
+                                    <feature.icon className="text-indigo-400 drop-shadow-lg" size={32} />
                                 </div>
-                                <h3 className="text-xl font-bold mb-3">{feature.title}</h3>
-                                <p className="text-slate-400">{feature.desc}</p>
+                                <div>
+                                    <h3 className="text-lg font-bold text-white mb-2">{feature.title}</h3>
+                                    <p className="text-sm text-slate-400 font-medium">{feature.desc}</p>
+                                </div>
                             </motion.div>
                         ))}
-                    </div>
+                    </motion.div>
                 </div>
-            </section>
-
-            {/* Pricing Teaser */}
-            <section className="py-20 px-4">
-                <div className="max-w-4xl mx-auto text-center">
-                    <h2 className="text-4xl font-bold mb-12">Simple Pricing</h2>
-                    <div className="grid md:grid-cols-3 gap-8">
-                        {['Free', 'Pro', 'Enterprise'].map((plan, i) => (
-                            <div key={plan} className={`p-8 rounded-2xl border ${i === 1 ? 'border-indigo-500 bg-indigo-500/5 relative' : 'border-white/10 bg-dark-800'} flex flex-col`}>
-                                {i === 1 && <span className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-indigo-500 text-white text-sm font-bold rounded-full">Popular</span>}
-                                <h3 className="text-2xl font-bold mb-2">{plan}</h3>
-                                <div className="text-3xl font-bold mb-6">{i === 0 ? '$0' : i === 1 ? '$29' : 'Custom'}</div>
-                                <ul className="space-y-4 mb-8 flex-1 text-left text-slate-400">
-                                    <li className="flex items-center gap-2"><CheckCircle size={16} className="text-indigo-400" /> All basics</li>
-                                    {i > 0 && <li className="flex items-center gap-2"><CheckCircle size={16} className="text-indigo-400" /> Advanced Analytics</li>}
-                                    {i > 1 && <li className="flex items-center gap-2"><CheckCircle size={16} className="text-indigo-400" /> SSO & Teams</li>}
-                                </ul>
-                                <button className={`w-full py-3 rounded-lg font-bold transition-all ${i === 1 ? 'bg-indigo-600 hover:bg-indigo-700' : 'bg-white/10 hover:bg-white/20'}`}>
-                                    Choose {plan}
-                                </button>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </section>
+            </main>
         </div>
     );
 };

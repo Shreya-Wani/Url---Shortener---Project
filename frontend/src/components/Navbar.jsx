@@ -1,8 +1,8 @@
 // FILE: src/components/Navbar.jsx
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { Link2 } from 'lucide-react';
 import { motion } from 'framer-motion';
+import logo from '../assets/logo.png';
 
 const Navbar = () => {
     const { user, logout } = useAuth();
@@ -12,48 +12,85 @@ const Navbar = () => {
     if (isDashboard) return null;
 
     return (
-        <nav className="fixed top-0 w-full z-50 bg-dark-900/80 backdrop-blur-lg border-b border-white/5">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex items-center justify-between h-16">
-                    <Link to="/" className="flex items-center gap-2 group">
-                        <div className="p-2 bg-indigo-500/20 rounded-lg group-hover:bg-indigo-500/30 transition-colors">
-                            <Link2 className="text-indigo-400" size={24} />
-                        </div>
-                        <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-cyan-400">
-                            Shortr
-                        </span>
-                    </Link>
+        <nav className="fixed top-0 w-full z-50 bg-transparent">
+            {/* Added container constraints for alignment */}
+            <div className="w-full px-6 py-4 flex justify-between items-center max-w-7xl mx-auto">
+                <Link to="/" className="flex items-center gap-2 group">
+                    {/* Restored Massive Logo Size per User Request */}
+                    <img src={logo} alt="Shortr Logo" className="h-28 md:h-40 w-auto object-contain drop-shadow-lg transition-transform group-hover:scale-105 -mt-4 md:-mt-6" />
+                </Link>
 
-                    <div className="flex items-center gap-4">
-                        {user ? (
-                            <Link to="/dashboard">
+                <div className="flex items-center gap-4">
+                    {/* Add Debug Log */}
+                    {console.log('Navbar Debug:', { user: !!user, pathname: location.pathname })}
+
+                    {/* 
+                        Logic Update:
+                        1. Landing ('/'): ALWAYS show 'Login' & 'Get Started' (User request)
+                        2. Other Pages: Show context-aware buttons (Dashboard, Sign Up, Login)
+                    */}
+
+                    {location.pathname === '/' ? (
+                        <>
+                            <Link
+                                to="/login"
+                                className="px-6 py-2.5 rounded-full text-slate-400 hover:text-white font-medium transition-colors hover:bg-white/5"
+                            >
+                                Login
+                            </Link>
+                            <Link to="/signup">
                                 <motion.button
                                     whileHover={{ scale: 1.05 }}
                                     whileTap={{ scale: 0.95 }}
-                                    className="px-5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-medium shadow-lg shadow-indigo-500/20 transition-all"
+                                    className="px-6 py-2.5 rounded-full bg-white text-black font-bold shadow-lg hover:shadow-white/20 transition-all border border-transparent hover:border-white/50"
                                 >
-                                    Dashboard
+                                    Get Started
                                 </motion.button>
                             </Link>
-                        ) : (
-                            <>
-                                <Link to="/login">
-                                    <button className="px-5 py-2 rounded-xl text-slate-300 hover:text-white font-medium transition-colors">
-                                        Login
-                                    </button>
-                                </Link>
-                                <Link to="/signup">
+                        </>
+                    ) : (
+                        // Not on Landing Page
+                        <>
+                            {/* Show Dashboard button if logged in (and not on landing, login, or signup) */}
+                            {user && location.pathname !== '/login' && location.pathname !== '/signup' && (
+                                <Link to="/dashboard">
                                     <motion.button
                                         whileHover={{ scale: 1.05 }}
                                         whileTap={{ scale: 0.95 }}
-                                        className="px-5 py-2 rounded-xl bg-white text-dark-900 font-bold shadow-lg hover:shadow-white/20 transition-all"
+                                        className="px-6 py-2.5 rounded-full bg-white/10 hover:bg-white/20 text-white font-medium transition-colors border border-white/10"
                                     >
-                                        Get Started
+                                        Dashboard
                                     </motion.button>
                                 </Link>
-                            </>
-                        )}
-                    </div>
+                            )}
+
+                            {/* Show Auth Buttons if NOT logged in */}
+                            {!user && (
+                                <>
+                                    {location.pathname === '/login' && (
+                                        <Link to="/signup">
+                                            <motion.button
+                                                whileHover={{ scale: 1.05 }}
+                                                whileTap={{ scale: 0.95 }}
+                                                className="px-6 py-2.5 rounded-full bg-white text-black font-bold shadow-lg hover:shadow-white/20 transition-all border border-transparent hover:border-white/50"
+                                            >
+                                                Sign Up
+                                            </motion.button>
+                                        </Link>
+                                    )}
+
+                                    {location.pathname === '/signup' && (
+                                        <Link
+                                            to="/login"
+                                            className="px-6 py-2.5 rounded-full text-slate-400 hover:text-white font-medium transition-colors hover:bg-white/5 border border-white/10"
+                                        >
+                                            Login
+                                        </Link>
+                                    )}
+                                </>
+                            )}
+                        </>
+                    )}
                 </div>
             </div>
         </nav>
