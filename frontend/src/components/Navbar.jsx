@@ -21,8 +21,6 @@ const Navbar = () => {
                 </Link>
 
                 <div className="flex items-center gap-4">
-                    {/* Add Debug Log */}
-                    {console.log('Navbar Debug:', { user: !!user, pathname: location.pathname })}
 
                     {/* 
                         Logic Update:
