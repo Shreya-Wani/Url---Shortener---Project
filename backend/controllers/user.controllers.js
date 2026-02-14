@@ -25,19 +25,8 @@ const signUp = asyncHandler(async (req, res) => {
         .from(usersTable)
         .where(eq(usersTable.email, email));
 
-    console.log("Signup Request:", { email });
-    console.log("Existing User Check:", existingUser);
-
     if (existingUser) {
-        return res
-            .status(409)
-            .json({
-                message: "User already exists",
-                debug: {
-                    sentEmail: email,
-                    foundUser: existingUser
-                }
-            });
+        return res.status(409).json({ message: "User already exists", });
     }
 
     const { salt, hashedPassword } = hashPassword(password);
