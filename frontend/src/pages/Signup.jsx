@@ -39,7 +39,7 @@ const Signup = () => {
     };
 
     return (
-        <div className="h-screen bg-[#050505] selection:bg-indigo-500/30 text-white flex flex-col justify-center items-center px-4 relative overflow-hidden">
+        <div className="min-h-screen bg-[#050505] selection:bg-indigo-500/30 text-white flex flex-col justify-center items-center px-4 relative overflow-hidden pt-24 pb-12">
             {/* Background Ambient Glows */}
             <div className="fixed top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
                 <div className="absolute top-[-10%] left-[-10%] w-[800px] h-[800px] bg-indigo-600/5 rounded-full blur-[120px]" />
@@ -51,38 +51,38 @@ const Signup = () => {
             <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="w-full max-w-md bg-white/5 backdrop-blur-xl p-8 rounded-3xl border border-white/10 shadow-2xl relative z-10"
+                className="w-full max-w-sm sm:max-w-md bg-white/5 backdrop-blur-xl p-5 sm:p-8 rounded-2xl sm:rounded-3xl border border-white/10 shadow-2xl relative z-10"
             >
-                <div className="text-center mb-8">
-                    <h2 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-cyan-400">
+                <div className="text-center mb-6 sm:mb-8">
+                    <h2 className="text-2xl sm:text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-cyan-400">
                         Create Account
                     </h2>
-                    <p className="text-slate-400 mt-2">Start shortening links for free</p>
+                    <p className="text-slate-400 mt-2 text-xs sm:text-base">Start shortening links for free</p>
                 </div>
 
                 {error && (
-                    <div className="p-3 mb-6 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-sm text-center">
+                    <div className="p-3 mb-6 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-xs sm:text-sm text-center">
                         {error}
                     </div>
                 )}
 
-                <form onSubmit={handleSubmit} className="space-y-4" autoComplete="off">
+                <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4" autoComplete="off">
                     {/* Dummy inputs to prevent autofill */}
                     <input type="text" style={{ display: 'none' }} />
                     <input type="password" style={{ display: 'none' }} />
 
-                    <div className="grid grid-cols-2 gap-4">
-                        <div className="space-y-2">
-                            <label className="text-sm font-medium text-slate-300">First Name</label>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                        <div className="space-y-1 sm:space-y-2">
+                            <label className="text-xs sm:text-sm font-medium text-slate-300">First Name</label>
                             <div className="relative">
-                                <User className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" size={20} />
+                                <User className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" size={16} />
                                 <input
                                     type="text"
                                     name="firstname"
                                     value={formData.firstname}
                                     onChange={handleChange}
                                     required
-                                    className="w-full bg-dark-900/50 border border-slate-700 rounded-xl py-3 pl-10 pr-4 text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all"
+                                    className="w-full bg-dark-900/50 border border-slate-700 rounded-lg sm:rounded-xl py-2.5 sm:py-3 pl-9 sm:pl-10 pr-4 text-xs sm:text-base text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all"
                                     placeholder="John"
                                     autoComplete="off"
                                     readOnly
@@ -90,17 +90,17 @@ const Signup = () => {
                                 />
                             </div>
                         </div>
-                        <div className="space-y-2">
-                            <label className="text-sm font-medium text-slate-300">Last Name</label>
+                        <div className="space-y-1 sm:space-y-2">
+                            <label className="text-xs sm:text-sm font-medium text-slate-300">Last Name</label>
                             <div className="relative">
-                                <User className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" size={20} />
+                                <User className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" size={16} />
                                 <input
                                     type="text"
                                     name="lastname"
                                     value={formData.lastname}
                                     onChange={handleChange}
                                     required
-                                    className="w-full bg-dark-900/50 border border-slate-700 rounded-xl py-3 pl-10 pr-4 text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all"
+                                    className="w-full bg-dark-900/50 border border-slate-700 rounded-lg sm:rounded-xl py-2.5 sm:py-3 pl-9 sm:pl-10 pr-4 text-xs sm:text-base text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all"
                                     placeholder="Doe"
                                     autoComplete="off"
                                     readOnly
@@ -110,10 +110,10 @@ const Signup = () => {
                         </div>
                     </div>
 
-                    <div className="space-y-2">
-                        <label className="text-sm font-medium text-slate-300">Email</label>
+                    <div className="space-y-1 sm:space-y-2">
+                        <label className="text-xs sm:text-sm font-medium text-slate-300">Email</label>
                         <div className="relative">
-                            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" size={20} />
+                            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" size={16} />
                             <input
                                 type="email"
                                 name="email"
@@ -121,7 +121,7 @@ const Signup = () => {
                                 onChange={handleChange}
                                 autoComplete="off"
                                 required
-                                className="w-full bg-dark-900/50 border border-slate-700 rounded-xl py-3 pl-10 pr-4 text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all"
+                                className="w-full bg-dark-900/50 border border-slate-700 rounded-lg sm:rounded-xl py-2.5 sm:py-3 pl-9 sm:pl-10 pr-4 text-xs sm:text-base text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all"
                                 placeholder="you@example.com"
                                 readOnly
                                 onFocus={(e) => e.target.readOnly = false}
@@ -129,17 +129,17 @@ const Signup = () => {
                         </div>
                     </div>
 
-                    <div className="space-y-2">
-                        <label className="text-sm font-medium text-slate-300">Password</label>
+                    <div className="space-y-1 sm:space-y-2">
+                        <label className="text-xs sm:text-sm font-medium text-slate-300">Password</label>
                         <div className="relative">
-                            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" size={20} />
+                            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" size={16} />
                             <input
                                 type={showPassword ? "text" : "password"}
                                 name="password"
                                 value={formData.password}
                                 onChange={handleChange}
                                 required
-                                className="w-full bg-dark-900/50 border border-slate-700 rounded-xl py-3 pl-10 pr-12 text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all"
+                                className="w-full bg-dark-900/50 border border-slate-700 rounded-lg sm:rounded-xl py-2.5 sm:py-3 pl-9 sm:pl-10 pr-12 text-xs sm:text-base text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all"
                                 placeholder="••••••••"
                                 autoComplete="new-password"
                                 readOnly
@@ -150,7 +150,7 @@ const Signup = () => {
                                 onClick={() => setShowPassword(!showPassword)}
                                 className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-white transition-colors"
                             >
-                                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                                {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                             </button>
                         </div>
                     </div>
@@ -158,13 +158,13 @@ const Signup = () => {
                     <button
                         type="submit"
                         disabled={loading}
-                        className="w-full bg-gradient-to-r from-indigo-600 to-cyan-600 hover:from-indigo-500 hover:to-cyan-500 text-white font-bold py-3.5 rounded-xl transition-all shadow-lg hover:shadow-indigo-500/25 disabled:opacity-70 disabled:cursor-not-allowed flex justify-center items-center mt-4"
+                        className="w-full bg-gradient-to-r from-indigo-600 to-cyan-600 hover:from-indigo-500 hover:to-cyan-500 text-white font-bold py-3 sm:py-3.5 rounded-xl transition-all shadow-lg hover:shadow-indigo-500/25 disabled:opacity-70 disabled:cursor-not-allowed flex justify-center items-center mt-4 text-sm sm:text-base"
                     >
                         {loading ? <Loader2 className="animate-spin" /> : 'Create Account'}
                     </button>
                 </form>
 
-                <p className="mt-8 text-center text-slate-400">
+                <p className="mt-6 sm:mt-8 text-center text-slate-400 text-xs sm:text-base">
                     Already have an account?{' '}
                     <Link to="/login" className="text-indigo-400 hover:text-indigo-300 font-medium transition-colors">
                         Sign in

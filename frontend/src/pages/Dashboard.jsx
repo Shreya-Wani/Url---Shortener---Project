@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { Link as LinkIcon, BarChart3, MousePointer2, LogOut } from 'lucide-react';
+import { motion } from 'framer-motion';
 import logo from '../assets/logo.png';
 import toast from 'react-hot-toast';
 import api from '../api/axios';
@@ -134,36 +135,58 @@ const Dashboard = () => {
                 <div className="absolute bottom-[-10%] right-[-10%] w-[800px] h-[800px] bg-cyan-600/5 rounded-full blur-[120px]" />
             </div>
 
-            {/* Fixed Navbar */}
-            <nav className="fixed top-0 left-0 right-0 z-50 bg-transparent">
-                <div className="w-full px-2 pt-0 flex justify-between items-center">
-                    <Link to="/" className="flex items-center gap-2 group">
-                        <img src={logo} alt="Shortr Logo" className="h-28 md:h-40 w-auto object-contain drop-shadow-lg transition-transform group-hover:scale-105 -mt-4 md:-mt-6" />
+            {/* Absolute Navbar - Scrolls with page */}
+            <nav className="absolute top-0 left-0 right-0 z-50 bg-transparent">
+                <div className="w-full px-4 sm:px-6 py-4 flex items-center justify-between max-w-7xl mx-auto">
+                    <Link to="/" className="flex items-center gap-2 group -ml-5">
+                        <img src={logo} alt="Shortr Logo" className="h-28 md:h-40 w-auto object-contain drop-shadow-lg transition-transform group-hover:scale-105" />
                     </Link>
 
                     <button
                         onClick={logout}
-                        className="flex items-center gap-2 px-5 py-2.5 text-sm font-medium text-slate-400 hover:text-white bg-white/5 hover:bg-white/10 border border-white/5 hover:border-white/20 rounded-full transition-all"
+                        className="flex items-center gap-2 px-4 py-2 sm:px-5 sm:py-2.5 text-sm font-medium text-slate-400 hover:text-white bg-white/5 hover:bg-white/10 border border-white/5 hover:border-white/20 rounded-full transition-all"
                     >
                         <LogOut size={16} />
-                        <span>Logout</span>
+                        <span className="hidden sm:inline">Logout</span>
+                        <span className="sm:hidden">Exit</span>
                     </button>
                 </div>
             </nav>
 
-            <main className="container mx-auto px-4 pt-32 pb-12 relative z-10 max-w-6xl">
+            {/* Animated Main Content */}
+            <motion.main
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                className="container mx-auto px-4 pt-32 pb-12 relative z-10 max-w-6xl"
+            >
 
                 {/* Hero / Create Section */}
                 <div className="mb-20 text-center">
-                    <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-b from-white to-slate-500 tracking-tight leading-tight">
+                    <motion.h1
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.1 }}
+                        className="text-5xl md:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-b from-white to-slate-500 tracking-tight leading-tight"
+                    >
                         Shorten Your Links,<br /> Expand Your Reach.
-                    </h1>
-                    <p className="text-slate-400 mb-10 text-lg max-w-2xl mx-auto leading-relaxed">
+                    </motion.h1>
+                    <motion.p
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.2 }}
+                        className="text-slate-400 mb-10 text-lg max-w-2xl mx-auto leading-relaxed"
+                    >
                         Transform long, ugly URLs into sleek, trackable short links in seconds.
                         Track clicks and manage your audience with ease.
-                    </p>
+                    </motion.p>
 
-                    <div className="max-w-3xl mx-auto">
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: 0.3 }}
+                        className="max-w-3xl mx-auto"
+                    >
                         <div className="bg-white/5 backdrop-blur-2xl p-2 rounded-[2rem] border border-white/10 shadow-2xl shadow-indigo-500/10">
                             <form onSubmit={handleShorten} className="flex flex-col md:flex-row gap-2">
                                 <div className="flex-1 relative group">
@@ -199,18 +222,28 @@ const Dashboard = () => {
                                 </button>
                             </form>
                         </div>
-                    </div>
+                    </motion.div>
                 </div>
 
                 {/* Stats Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.4 }}
+                    className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12"
+                >
                     <StatsCard title="Total Links Created" value={stats.totalUrls} icon={LinkIcon} />
                     <StatsCard title="Total Clicks Recorded" value={stats.totalClicks} icon={MousePointer2} />
                     <StatsCard title="Avg. Clicks / Link" value={stats.avgCTR || 0} icon={BarChart3} />
-                </div>
+                </motion.div>
 
                 {/* URL Table Section */}
-                <div className="space-y-6">
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.5 }}
+                    className="space-y-6"
+                >
                     <div className="flex items-center justify-between px-2">
                         <h2 className="text-xl font-semibold text-white">Recent Activity</h2>
                         <button onClick={fetchUrls} className="text-sm text-indigo-400 hover:text-indigo-300 transition-colors">
@@ -234,8 +267,8 @@ const Dashboard = () => {
                             />
                         </div>
                     </div>
-                </div>
-            </main>
+                </motion.div>
+            </motion.main>
 
             <QRModal isOpen={!!showQR} onClose={() => setShowQR('')} url={showQR} />
         </div>

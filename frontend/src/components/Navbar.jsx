@@ -12,15 +12,16 @@ const Navbar = () => {
     if (isDashboard) return null;
 
     return (
-        <nav className="fixed top-0 w-full z-50 bg-transparent">
+        <nav className="absolute top-0 w-full z-50 bg-transparent py-4">
             {/* Added container constraints for alignment */}
-            <div className="w-full px-6 py-4 flex justify-between items-center max-w-7xl mx-auto">
-                <Link to="/" className="flex items-center gap-2 group">
-                    {/* Restored Massive Logo Size per User Request */}
-                    <img src={logo} alt="Shortr Logo" className="h-28 md:h-40 w-auto object-contain drop-shadow-lg transition-transform group-hover:scale-105 -mt-4 md:-mt-6" />
+            <div className="w-full px-4 sm:px-6 items-center max-w-7xl mx-auto flex justify-between">
+                <Link to="/" className="flex items-center gap-2 group z-50 shrink-0">
+                    {/* Restored larger logo size as requested */}
+                    <img src={logo} alt="Shortr Logo" className="h-24 md:h-32 w-auto object-contain drop-shadow-lg transition-transform group-hover:scale-105" />
                 </Link>
 
-                <div className="flex items-center gap-4">
+                {/* Desktop & Mobile Navigation - Always Visible */}
+                <div className="flex items-center gap-2 sm:gap-4 shrink-0">
 
                     {/* 
                         Logic Update:
@@ -32,7 +33,7 @@ const Navbar = () => {
                         <>
                             <Link
                                 to="/login"
-                                className="px-6 py-2.5 rounded-full text-slate-400 hover:text-white font-medium transition-colors hover:bg-white/5"
+                                className="px-3 sm:px-6 py-2 sm:py-2.5 rounded-full text-sm sm:text-base text-slate-400 hover:text-white font-medium transition-colors hover:bg-white/5"
                             >
                                 Login
                             </Link>
@@ -40,7 +41,7 @@ const Navbar = () => {
                                 <motion.button
                                     whileHover={{ scale: 1.05 }}
                                     whileTap={{ scale: 0.95 }}
-                                    className="px-6 py-2.5 rounded-full bg-white text-black font-bold shadow-lg hover:shadow-white/20 transition-all border border-transparent hover:border-white/50"
+                                    className="px-4 sm:px-6 py-2 sm:py-2.5 rounded-full bg-white text-black text-sm sm:text-base font-bold shadow-lg hover:shadow-white/20 transition-all border border-transparent hover:border-white/50 whitespace-nowrap"
                                 >
                                     Get Started
                                 </motion.button>
@@ -55,7 +56,7 @@ const Navbar = () => {
                                     <motion.button
                                         whileHover={{ scale: 1.05 }}
                                         whileTap={{ scale: 0.95 }}
-                                        className="px-6 py-2.5 rounded-full bg-white/10 hover:bg-white/20 text-white font-medium transition-colors border border-white/10"
+                                        className="px-4 sm:px-6 py-2 sm:py-2.5 rounded-full bg-white/10 hover:bg-white/20 text-white text-sm sm:text-base font-medium transition-colors border border-white/10 whitespace-nowrap"
                                     >
                                         Dashboard
                                     </motion.button>
@@ -70,7 +71,7 @@ const Navbar = () => {
                                             <motion.button
                                                 whileHover={{ scale: 1.05 }}
                                                 whileTap={{ scale: 0.95 }}
-                                                className="px-6 py-2.5 rounded-full bg-white text-black font-bold shadow-lg hover:shadow-white/20 transition-all border border-transparent hover:border-white/50"
+                                                className="px-4 sm:px-6 py-2 sm:py-2.5 rounded-full bg-white text-black text-sm sm:text-base font-bold shadow-lg hover:shadow-white/20 transition-all border border-transparent hover:border-white/50 whitespace-nowrap"
                                             >
                                                 Sign Up
                                             </motion.button>
@@ -80,7 +81,7 @@ const Navbar = () => {
                                     {location.pathname === '/signup' && (
                                         <Link
                                             to="/login"
-                                            className="px-6 py-2.5 rounded-full text-slate-400 hover:text-white font-medium transition-colors hover:bg-white/5 border border-white/10"
+                                            className="px-3 sm:px-6 py-2 sm:py-2.5 rounded-full text-sm sm:text-base text-slate-400 hover:text-white font-medium transition-colors hover:bg-white/5 border border-white/10 whitespace-nowrap"
                                         >
                                             Login
                                         </Link>

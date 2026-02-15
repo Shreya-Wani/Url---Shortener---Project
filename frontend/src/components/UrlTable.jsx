@@ -17,11 +17,11 @@ const UrlTable = ({ urls, onDelete, onShowQR }) => {
             <table className="w-full text-left border-collapse">
                 <thead>
                     <tr className="border-b border-white/10 text-slate-400 text-xs uppercase tracking-wider">
-                        <th className="p-6 font-medium">Short Link</th>
-                        <th className="p-6 font-medium">Original URL</th>
-                        <th className="p-6 font-medium">Clicks</th>
-                        <th className="p-6 font-medium">Date</th>
-                        <th className="p-6 font-medium text-right">Actions</th>
+                        <th className="p-4 md:p-6 font-medium">Short Link</th>
+                        <th className="p-4 md:p-6 font-medium">Original URL</th>
+                        <th className="p-4 md:p-6 font-medium">Clicks</th>
+                        <th className="p-4 md:p-6 font-medium">Date</th>
+                        <th className="p-4 md:p-6 font-medium text-right">Actions</th>
                     </tr>
                 </thead>
                 <tbody className="divide-y divide-white/5">
@@ -33,7 +33,7 @@ const UrlTable = ({ urls, onDelete, onShowQR }) => {
                             transition={{ delay: index * 0.05 }}
                             className="group hover:bg-white/5 transition-colors"
                         >
-                            <td className="p-6">
+                            <td className="p-4 md:p-6">
                                 <div className="flex items-center gap-3">
                                     <div className="p-2 bg-indigo-500/20 rounded-lg text-indigo-400">
                                         <ExternalLink size={16} />
@@ -65,26 +65,26 @@ const UrlTable = ({ urls, onDelete, onShowQR }) => {
                                     </div>
                                 </div>
                             </td>
-                            <td className="p-6">
+                            <td className="p-4 md:p-6">
                                 <div className="max-w-xs truncate text-slate-400 text-sm font-mono bg-white/5 px-2 py-1 rounded border border-white/5" title={url.originalUrl}>
                                     {url.originalUrl}
                                 </div>
                             </td>
-                            <td className="p-6">
+                            <td className="p-4 md:p-6">
                                 <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
                                     <BarChart size={12} />
                                     {url.clicks}
                                 </div>
                             </td>
-                            <td className="p-6 text-slate-400 text-sm">
+                            <td className="p-4 md:p-6 text-slate-400 text-sm">
                                 {new Date(url.createdAt).toLocaleDateString(undefined, {
                                     year: 'numeric',
                                     month: 'short',
                                     day: 'numeric'
                                 })}
                             </td>
-                            <td className="p-6">
-                                <div className="flex items-center justify-end gap-2 opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity">
+                            <td className="p-4 md:p-6">
+                                <div className="flex items-center justify-end gap-2">
                                     <button
                                         onClick={() => onShowQR(url.shortUrl)}
                                         className="p-2 rounded-lg bg-indigo-500/10 text-indigo-400 hover:bg-indigo-500/20 transition-all border border-indigo-500/20 hover:border-indigo-500/50"

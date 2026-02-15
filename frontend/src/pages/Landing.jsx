@@ -34,10 +34,10 @@ const Landing = () => {
             </div>
 
             {/* Main Content Container - Centered Vertically */}
-            <main className="relative z-10 h-screen flex flex-col justify-center items-center px-6 sm:px-8 lg:px-12 max-w-7xl mx-auto pt-28">
+            <main className="relative z-10 min-h-screen flex flex-col justify-center items-center px-4 sm:px-6 md:px-8 lg:px-12 max-w-7xl mx-auto pt-24 md:pt-20 pb-12">
 
                 {/* Content Wrapper to group Hero and Features together */}
-                <div className="w-full max-w-5xl flex flex-col items-center gap-12 sm:gap-16">
+                <div className="w-full max-w-5xl flex flex-col items-center gap-8 md:gap-12 lg:gap-16">
 
                     {/* Hero Section */}
                     <section className="text-center">
@@ -46,7 +46,7 @@ const Landing = () => {
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.8 }}
                         >
-                            <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-b from-white to-slate-500 leading-[1.1]">
+                            <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-4 md:mb-6 bg-clip-text text-transparent bg-gradient-to-b from-white to-slate-500 leading-[1.1]">
                                 <motion.span
                                     initial={{ opacity: 0, y: 20 }}
                                     animate={{ opacity: 1, y: 0 }}
@@ -76,7 +76,7 @@ const Landing = () => {
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.8, duration: 0.8 }}
-                            className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-8 leading-relaxed font-light"
+                            className="text-base sm:text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-6 md:mb-8 leading-relaxed font-light px-4"
                         >
                             Modern URL management built for creators. <br className="hidden md:block" />
                             Gain insights, control your links, and grow your audience.
@@ -92,7 +92,7 @@ const Landing = () => {
                                 <motion.button
                                     whileHover={{ scale: 1.05 }}
                                     whileTap={{ scale: 0.95 }}
-                                    className="px-8 py-3.5 rounded-full bg-gradient-to-r from-indigo-600 to-cyan-600 hover:from-indigo-500 hover:to-cyan-500 text-white font-semibold text-lg shadow-2xl shadow-indigo-500/40 transition-all flex items-center gap-2 group"
+                                    className="px-6 md:px-8 py-3 md:py-3.5 rounded-full bg-gradient-to-r from-indigo-600 to-cyan-600 hover:from-indigo-500 hover:to-cyan-500 text-white font-semibold text-base md:text-lg shadow-2xl shadow-indigo-500/40 transition-all flex items-center gap-2 group"
                                 >
                                     Get Started Free
                                     <ArrowRight className="group-hover:translate-x-1 transition-transform" />
@@ -103,7 +103,7 @@ const Landing = () => {
 
                     {/* Features - Grid */}
                     <motion.div
-                        className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full"
+                        className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 w-full"
                     >
                         {[
                             { icon: ExternalLink, title: 'Custom URLs', desc: 'Branded & Professional', delay: 1.2 },
@@ -133,14 +133,14 @@ const Landing = () => {
                                     backgroundColor: "rgba(255, 255, 255, 0.08)",
                                     transition: { duration: 0.2 } // Fast response on hover
                                 }}
-                                className="p-8 rounded-3xl bg-white/5 backdrop-blur-md border border-white/5 transition-colors group cursor-default text-center flex flex-col items-center justify-center gap-4 hover:border-white/10"
+                                className="p-6 md:p-8 rounded-3xl bg-white/5 backdrop-blur-md border border-white/5 transition-colors group cursor-default text-center flex flex-col items-center justify-center gap-3 md:gap-4 hover:border-white/10"
                             >
-                                <div className="p-4 bg-gradient-to-br from-indigo-500/10 to-cyan-500/10 rounded-2xl w-fit group-hover:scale-110 transition-transform shadow-inner shadow-white/5">
-                                    <feature.icon className="text-indigo-400 drop-shadow-lg" size={32} />
+                                <div className="p-3 md:p-4 bg-gradient-to-br from-indigo-500/10 to-cyan-500/10 rounded-2xl w-fit group-hover:scale-110 transition-transform shadow-inner shadow-white/5">
+                                    <feature.icon className="text-indigo-400 drop-shadow-lg" size={28} />
                                 </div>
                                 <div>
-                                    <h3 className="text-lg font-bold text-white mb-2">{feature.title}</h3>
-                                    <p className="text-sm text-slate-400 font-medium">{feature.desc}</p>
+                                    <h3 className="text-base md:text-lg font-bold text-white mb-1 md:mb-2">{feature.title}</h3>
+                                    <p className="text-xs md:text-sm text-slate-400 font-medium">{feature.desc}</p>
                                 </div>
                             </motion.div>
                         ))}
