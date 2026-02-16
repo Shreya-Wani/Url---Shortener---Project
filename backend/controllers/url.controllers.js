@@ -5,7 +5,7 @@ import asyncHandler from "../utils/asyncHandler.js";
 import ApiError from "../utils/ApiError.js";
 import ApiResponse from "../utils/ApiResponse.js";
 import { createShortUrlSchema } from "../validation/request.validation.js";
-import { eq, sql, count, desc } from "drizzle-orm"; 
+import { eq, sql, count, desc, and, or, isNull, lt } from "drizzle-orm";
 
 export const createShortUrl = asyncHandler(async (req, res) => {
 
@@ -70,12 +70,25 @@ export const redirectToOriginalUrl = asyncHandler(async (req, res) => {
     throw new ApiError(404, "Short URL not found");
   }
 
+  // Atomic increment with deduplication at the SQL level.
+  // The WHERE clause ensures only ONE update happens even if multiple
+  // requests arrive simultaneously (e.g. Render load balancer retries).
+  // PostgreSQL's row-level locking ensures the second request sees
+  // the updated `updatedAt` and skips the increment.
   await db
     .update(urlsTable)
     .set({
       clicks: sql`${urlsTable.clicks} + 1`,
     })
-    .where(eq(urlsTable.shortCode, shortCode));
+    .where(
+      and(
+        eq(urlsTable.shortCode, shortCode),
+        or(
+          isNull(urlsTable.updatedAt),
+          lt(urlsTable.updatedAt, sql`NOW() - INTERVAL '5 seconds'`)
+        )
+      )
+    );
 
   return res.redirect(url.originalUrl);
 });
