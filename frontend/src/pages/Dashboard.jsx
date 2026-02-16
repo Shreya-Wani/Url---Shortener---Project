@@ -129,40 +129,73 @@ const Dashboard = () => {
     return (
 
         <div className="min-h-screen bg-[#050505] selection:bg-indigo-500/30 text-white relative overflow-hidden">
-            {/* Background Ambient Glows */}
+            {/* Background Ambient Glows - Animated */}
             <div className="fixed top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
-                <div className="absolute top-[-10%] left-[-10%] w-[800px] h-[800px] bg-indigo-600/5 rounded-full blur-[120px]" />
-                <div className="absolute bottom-[-10%] right-[-10%] w-[800px] h-[800px] bg-cyan-600/5 rounded-full blur-[120px]" />
+                <motion.div
+                    animate={{
+                        scale: [1, 1.2, 1],
+                        opacity: [0.3, 0.5, 0.3],
+                        x: [0, 40, 0],
+                        y: [0, -40, 0]
+                    }}
+                    transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+                    className="absolute top-[-10%] left-[-10%] w-[800px] h-[800px] bg-indigo-600/5 rounded-full blur-[120px]"
+                />
+                <motion.div
+                    animate={{
+                        scale: [1, 1.1, 1],
+                        opacity: [0.3, 0.5, 0.3],
+                        x: [0, -30, 0],
+                        y: [0, 40, 0]
+                    }}
+                    transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+                    className="absolute bottom-[-10%] right-[-10%] w-[800px] h-[800px] bg-cyan-600/5 rounded-full blur-[120px]"
+                />
             </div>
 
             {/* Absolute Navbar - Scrolls with page */}
-            <nav className="absolute top-0 left-0 right-0 z-50 bg-transparent">
-                <div className="w-full px-4 sm:px-6 py-4 flex items-center justify-between max-w-7xl mx-auto">
-                    <Link to="/" className="flex items-center gap-2 group -ml-5">
-                        <img src={logo} alt="Shortr Logo" className="h-28 md:h-40 w-auto object-contain drop-shadow-lg transition-transform group-hover:scale-105" />
+            <motion.nav
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                className="absolute top-0 left-0 right-0 z-50 bg-transparent"
+            >
+                <div className="w-full pl-0 pr-4 sm:pr-6 py-4 flex items-center justify-between max-w-7xl mx-auto">
+                    <Link to="/" className="flex items-center gap-2 group -ml-4">
+                        <motion.img
+                            initial={{ opacity: 0, scale: 0.8 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ delay: 0.2, type: 'spring', stiffness: 200, damping: 15 }}
+                            src={logo} alt="Shortr Logo" className="h-24 sm:h-28 md:h-32 w-auto object-contain drop-shadow-lg transition-transform group-hover:scale-105"
+                        />
                     </Link>
 
-                    <button
+                    <motion.button
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.4 }}
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
                         onClick={logout}
                         className="flex items-center gap-2 px-4 py-2 sm:px-5 sm:py-2.5 text-sm font-medium text-slate-400 hover:text-white bg-white/5 hover:bg-white/10 border border-white/5 hover:border-white/20 rounded-full transition-all"
                     >
                         <LogOut size={16} />
                         <span className="hidden sm:inline">Logout</span>
                         <span className="sm:hidden">Exit</span>
-                    </button>
+                    </motion.button>
                 </div>
-            </nav>
+            </motion.nav>
 
             {/* Animated Main Content */}
             <motion.main
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
-                className="container mx-auto px-4 pt-32 pb-12 relative z-10 max-w-6xl"
+                className="container mx-auto px-4 pt-36 sm:pt-40 md:pt-48 pb-12 relative z-10 max-w-6xl"
             >
 
                 {/* Hero / Create Section */}
-                <div className="mb-20 text-center">
+                <div className="mb-10 text-center">
                     <motion.h1
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -230,7 +263,7 @@ const Dashboard = () => {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.4 }}
-                    className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12"
+                    className="grid grid-cols-3 gap-3 sm:gap-6 mb-6"
                 >
                     <StatsCard title="Total Links Created" value={stats.totalUrls} icon={LinkIcon} />
                     <StatsCard title="Total Clicks Recorded" value={stats.totalClicks} icon={MousePointer2} />

@@ -2,9 +2,23 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Loader2, Mail, Lock, User, Eye, EyeOff } from 'lucide-react';
 import Navbar from '../components/Navbar';
+
+// Animation variants
+const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+        opacity: 1,
+        transition: { staggerChildren: 0.08, delayChildren: 0.2 }
+    }
+};
+
+const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } }
+};
 
 const Signup = () => {
     const [formData, setFormData] = useState({
@@ -39,39 +53,80 @@ const Signup = () => {
     };
 
     return (
-        <div className="min-h-screen bg-[#050505] selection:bg-indigo-500/30 text-white flex flex-col justify-center items-center px-4 relative overflow-hidden pt-24 pb-12">
-            {/* Background Ambient Glows */}
+        <div className="min-h-screen bg-[#050505] selection:bg-indigo-500/30 text-white flex flex-col justify-center items-center px-4 relative overflow-hidden pt-24 sm:pt-28 md:pt-32 pb-4">
+            {/* Background Ambient Glows - Animated */}
             <div className="fixed top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
-                <div className="absolute top-[-10%] left-[-10%] w-[800px] h-[800px] bg-indigo-600/5 rounded-full blur-[120px]" />
-                <div className="absolute bottom-[-10%] right-[-10%] w-[800px] h-[800px] bg-cyan-600/5 rounded-full blur-[120px]" />
+                <motion.div
+                    animate={{
+                        scale: [1, 1.2, 1],
+                        opacity: [0.3, 0.5, 0.3],
+                        x: [0, 30, 0],
+                        y: [0, -30, 0]
+                    }}
+                    transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+                    className="absolute top-[-10%] left-[-10%] w-[800px] h-[800px] bg-indigo-600/5 rounded-full blur-[120px]"
+                />
+                <motion.div
+                    animate={{
+                        scale: [1, 1.1, 1],
+                        opacity: [0.3, 0.5, 0.3],
+                        x: [0, -20, 0],
+                        y: [0, 30, 0]
+                    }}
+                    transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+                    className="absolute bottom-[-10%] right-[-10%] w-[800px] h-[800px] bg-cyan-600/5 rounded-full blur-[120px]"
+                />
             </div>
 
             <Navbar />
 
             <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="w-full max-w-sm sm:max-w-md bg-white/5 backdrop-blur-xl p-5 sm:p-8 rounded-2xl sm:rounded-3xl border border-white/10 shadow-2xl relative z-10"
+                initial={{ opacity: 0, y: 30, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                className="w-full max-w-sm sm:max-w-md bg-white/5 backdrop-blur-xl px-5 py-6 sm:p-8 rounded-2xl sm:rounded-3xl border border-white/10 shadow-2xl relative z-10"
             >
-                <div className="text-center mb-6 sm:mb-8">
+                {/* Header */}
+                <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.3, duration: 0.5 }}
+                    className="text-center mb-4 sm:mb-8"
+                >
                     <h2 className="text-2xl sm:text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-cyan-400">
                         Create Account
                     </h2>
                     <p className="text-slate-400 mt-2 text-xs sm:text-base">Start shortening links for free</p>
-                </div>
+                </motion.div>
 
-                {error && (
-                    <div className="p-3 mb-6 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-xs sm:text-sm text-center">
-                        {error}
-                    </div>
-                )}
+                {/* Error with shake animation */}
+                <AnimatePresence>
+                    {error && (
+                        <motion.div
+                            initial={{ opacity: 0, x: -10 }}
+                            animate={{ opacity: 1, x: [0, -8, 8, -4, 4, 0] }}
+                            exit={{ opacity: 0, height: 0 }}
+                            transition={{ duration: 0.4 }}
+                            className="p-3 mb-6 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-xs sm:text-sm text-center"
+                        >
+                            {error}
+                        </motion.div>
+                    )}
+                </AnimatePresence>
 
-                <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4" autoComplete="off">
+                <motion.form
+                    onSubmit={handleSubmit}
+                    className="space-y-2 sm:space-y-4"
+                    autoComplete="off"
+                    variants={containerVariants}
+                    initial="hidden"
+                    animate="visible"
+                >
                     {/* Dummy inputs to prevent autofill */}
                     <input type="text" style={{ display: 'none' }} />
                     <input type="password" style={{ display: 'none' }} />
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                    <motion.div variants={itemVariants} className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4">
                         <div className="space-y-1 sm:space-y-2">
                             <label className="text-xs sm:text-sm font-medium text-slate-300">First Name</label>
                             <div className="relative">
@@ -82,7 +137,7 @@ const Signup = () => {
                                     value={formData.firstname}
                                     onChange={handleChange}
                                     required
-                                    className="w-full bg-dark-900/50 border border-slate-700 rounded-lg sm:rounded-xl py-2.5 sm:py-3 pl-9 sm:pl-10 pr-4 text-xs sm:text-base text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all"
+                                    className="w-full bg-dark-900/50 border border-slate-700 rounded-lg sm:rounded-xl py-2 sm:py-3 pl-9 sm:pl-10 pr-4 text-xs sm:text-base text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all"
                                     placeholder="John"
                                     autoComplete="off"
                                     readOnly
@@ -100,7 +155,7 @@ const Signup = () => {
                                     value={formData.lastname}
                                     onChange={handleChange}
                                     required
-                                    className="w-full bg-dark-900/50 border border-slate-700 rounded-lg sm:rounded-xl py-2.5 sm:py-3 pl-9 sm:pl-10 pr-4 text-xs sm:text-base text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all"
+                                    className="w-full bg-dark-900/50 border border-slate-700 rounded-lg sm:rounded-xl py-2 sm:py-3 pl-9 sm:pl-10 pr-4 text-xs sm:text-base text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all"
                                     placeholder="Doe"
                                     autoComplete="off"
                                     readOnly
@@ -108,9 +163,9 @@ const Signup = () => {
                                 />
                             </div>
                         </div>
-                    </div>
+                    </motion.div>
 
-                    <div className="space-y-1 sm:space-y-2">
+                    <motion.div variants={itemVariants} className="space-y-1 sm:space-y-2">
                         <label className="text-xs sm:text-sm font-medium text-slate-300">Email</label>
                         <div className="relative">
                             <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" size={16} />
@@ -121,15 +176,15 @@ const Signup = () => {
                                 onChange={handleChange}
                                 autoComplete="off"
                                 required
-                                className="w-full bg-dark-900/50 border border-slate-700 rounded-lg sm:rounded-xl py-2.5 sm:py-3 pl-9 sm:pl-10 pr-4 text-xs sm:text-base text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all"
+                                className="w-full bg-dark-900/50 border border-slate-700 rounded-lg sm:rounded-xl py-2 sm:py-3 pl-9 sm:pl-10 pr-4 text-xs sm:text-base text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all"
                                 placeholder="you@example.com"
                                 readOnly
                                 onFocus={(e) => e.target.readOnly = false}
                             />
                         </div>
-                    </div>
+                    </motion.div>
 
-                    <div className="space-y-1 sm:space-y-2">
+                    <motion.div variants={itemVariants} className="space-y-1 sm:space-y-2">
                         <label className="text-xs sm:text-sm font-medium text-slate-300">Password</label>
                         <div className="relative">
                             <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" size={16} />
@@ -139,7 +194,7 @@ const Signup = () => {
                                 value={formData.password}
                                 onChange={handleChange}
                                 required
-                                className="w-full bg-dark-900/50 border border-slate-700 rounded-lg sm:rounded-xl py-2.5 sm:py-3 pl-9 sm:pl-10 pr-12 text-xs sm:text-base text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all"
+                                className="w-full bg-dark-900/50 border border-slate-700 rounded-lg sm:rounded-xl py-2 sm:py-3 pl-9 sm:pl-10 pr-12 text-xs sm:text-base text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all"
                                 placeholder="••••••••"
                                 autoComplete="new-password"
                                 readOnly
@@ -153,23 +208,32 @@ const Signup = () => {
                                 {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                             </button>
                         </div>
-                    </div>
+                    </motion.div>
 
-                    <button
-                        type="submit"
-                        disabled={loading}
-                        className="w-full bg-gradient-to-r from-indigo-600 to-cyan-600 hover:from-indigo-500 hover:to-cyan-500 text-white font-bold py-3 sm:py-3.5 rounded-xl transition-all shadow-lg hover:shadow-indigo-500/25 disabled:opacity-70 disabled:cursor-not-allowed flex justify-center items-center mt-4 text-sm sm:text-base"
-                    >
-                        {loading ? <Loader2 className="animate-spin" /> : 'Create Account'}
-                    </button>
-                </form>
+                    <motion.div variants={itemVariants}>
+                        <motion.button
+                            type="submit"
+                            disabled={loading}
+                            whileHover={{ scale: 1.02, boxShadow: '0 0 30px rgba(99, 102, 241, 0.3)' }}
+                            whileTap={{ scale: 0.98 }}
+                            className="w-full bg-gradient-to-r from-indigo-600 to-cyan-600 hover:from-indigo-500 hover:to-cyan-500 text-white font-bold py-3 sm:py-3.5 rounded-xl transition-all shadow-lg hover:shadow-indigo-500/25 disabled:opacity-70 disabled:cursor-not-allowed flex justify-center items-center mt-4 text-sm sm:text-base"
+                        >
+                            {loading ? <Loader2 className="animate-spin" /> : 'Create Account'}
+                        </motion.button>
+                    </motion.div>
+                </motion.form>
 
-                <p className="mt-6 sm:mt-8 text-center text-slate-400 text-xs sm:text-base">
+                <motion.p
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.8 }}
+                    className="mt-4 sm:mt-8 text-center text-slate-400 text-xs sm:text-base"
+                >
                     Already have an account?{' '}
                     <Link to="/login" className="text-indigo-400 hover:text-indigo-300 font-medium transition-colors">
                         Sign in
                     </Link>
-                </p>
+                </motion.p>
             </motion.div>
         </div>
     );

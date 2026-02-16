@@ -34,7 +34,7 @@ const Landing = () => {
             </div>
 
             {/* Main Content Container - Centered Vertically */}
-            <main className="relative z-10 min-h-screen flex flex-col justify-center items-center px-4 sm:px-6 md:px-8 lg:px-12 max-w-7xl mx-auto pt-24 md:pt-20 pb-12">
+            <main className="relative z-10 min-h-screen flex flex-col justify-center items-center px-4 sm:px-6 md:px-8 lg:px-12 max-w-7xl mx-auto pt-36 sm:pt-40 md:pt-48 pb-12">
 
                 {/* Content Wrapper to group Hero and Features together */}
                 <div className="w-full max-w-5xl flex flex-col items-center gap-8 md:gap-12 lg:gap-16">
@@ -133,7 +133,7 @@ const Landing = () => {
                                     backgroundColor: "rgba(255, 255, 255, 0.08)",
                                     transition: { duration: 0.2 } // Fast response on hover
                                 }}
-                                className="p-6 md:p-8 rounded-3xl bg-white/5 backdrop-blur-md border border-white/5 transition-colors group cursor-default text-center flex flex-col items-center justify-center gap-3 md:gap-4 hover:border-white/10"
+                                className="p-6 md:p-8 rounded-3xl bg-dark-800 backdrop-blur-md border border-white/10 transition-colors group cursor-default text-center flex flex-col items-center justify-center gap-3 md:gap-4 hover:border-white/20"
                             >
                                 <div className="p-3 md:p-4 bg-gradient-to-br from-indigo-500/10 to-cyan-500/10 rounded-2xl w-fit group-hover:scale-110 transition-transform shadow-inner shadow-white/5">
                                     <feature.icon className="text-indigo-400 drop-shadow-lg" size={28} />
